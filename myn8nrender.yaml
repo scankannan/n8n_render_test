@@ -1,0 +1,34 @@
+
+services:
+  - type: web
+    plan: free
+    runtime: image
+    name: n8n-service
+    image:
+      url: docker.io/n8nio/n8n:latest
+
+    envVars:
+      - key: N8N_ENCRYPTION_KEY
+        generateValue: true
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_DATABASE
+        fromDatabase:
+          name: n8n-db
+          property: database
+      - key: DB_POSTGRESDB_HOST
+        fromDatabase:
+          name: n8n-db
+          property: host
+      - key: DB_POSTGRESDB_PASSWORD
+        fromDatabase:
+          name: n8n-db
+          property: password
+      - key: DB_POSTGRESDB_USER
+        fromDatabase:
+          name: n8n-db
+          property: user
+
+databases:
+  - name: n8n-db
+    plan: free
